@@ -1,19 +1,19 @@
-export function formatTime(miliseconds){
-  let formatedTime = ''
+export function formatTime(miliseconds) {
+	let formatedTime = ''
 
-  const msInHour = 3600000;
-  const hours = Math.trunc(miliseconds/ msInHour);
+	const msInHour = 3600000;
+	const hours = Math.trunc(miliseconds / msInHour);
 
-  if (hours > 0) {
-    formatedTime += `**${hours}h `
-    miliseconds -= hours * msInHour
-  }
+	if (hours > 0) {
+		formatedTime += `**${hours}h `
+		miliseconds -= hours * msInHour
+	}
 
-  const msInMin = 60000;
-  const minutes = Math.trunc(miliseconds/ msInMin);
-  if (minutes > 0){
-    formatedTime += `${minutes}m**`;
-  }
+	const msInMin = 60000;
+	const minutes = Math.trunc(miliseconds / msInMin);
+	if (minutes > 0) {
+		formatedTime += `${minutes}m**`;
+	}
 
-  return formatedTime
+	return formatedTime
 }

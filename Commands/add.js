@@ -35,3 +35,4 @@ module.exports = {
     message.channel.send(`added ${ammountToAdd} to ${recivingId}'s account'`)
   },
  };
+//test

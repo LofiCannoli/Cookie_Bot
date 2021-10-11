@@ -1,59 +1,67 @@
 const profileModel = require('../Models/profileSchema');
-import { check_Id } from '../Functions/check_id'
-const { embedColour } = require('../config.json');
+import {
+  check_Id
+} from '../Functions/check_id'
+const {
+  embedColour
+} = require('../config.json');
 
 module.exports = {
   name: 'add',
   aliases: ['+'],
   description: "add coins to user",
-  async execute(client, message, args, Discord){
-
-    if (!args[0]) return
+  async execute(client, message, args, Discord) {
 
     const embed = new Discord.MessageEmbed()
-    .setColor(embedColour)
+      .setColor(embedColour)
 
-    if(!args[1]) args[1] = message.author.id
+    if (!args[0]) return
+    if (!args[1]) args[1] = message.author.id
 
-    // Handels mentions
-    if(args[1].startsWith('<@')){
-      args[1] = message.mentions.users.first().id
-    }
+
 
     const ammountToAdd = args[0]
-    const recivingId = args[1]
+    let recivingId = args[1]
 
     //Check to make sure user exist
     let user
-    try{
+    try {
+      if (args[1].startsWith('<@')) recivingId = message.mentions.users.first().id
       user = await client.users.fetch(recivingId)
-    } catch {
+    } catch(err) {
+      console.log(err)
       embed.setTitle(`Couldnt find user: ${recivingId}`)
-      return message.channel.send({ embeds: [embed] });
+      return message.channel.send({
+        embeds: [embed]
+      });
     }
 
     //Finds and updates user with new ammount of money
     let profileData;
 
-    try{
-      profileData = await profileModel.findOneAndUpdate({userID: recivingId},{
+    try {
+      profileData = await profileModel.findOneAndUpdate({
+        userID: recivingId
+      }, {
         $inc: {
-          cookies:ammountToAdd
+          cookies: ammountToAdd
         }
       });
       //If no user found, makes new entry in db with correct money
-      if(!profileData){
+      if (!profileData) {
         let profile = await profileModel.create({
           userID: recivingId,
           cookies: ammountToAdd
         });
         await profile.save()
       }
-    } catch(err){
+    } catch (err) {
       console.log(err)
     }
     embed.setDescription(`Added **${ammountToAdd}** :cookie:s to **${user.tag}'s** account'`)
-    message.channel.send({ embeds: [embed] })
+    message.channel.send({
+      embeds: [embed]
+    })
   },
- };
+};
 //test

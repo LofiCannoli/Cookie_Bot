@@ -12,20 +12,15 @@ module.exports = {
     .setColor(embedColour)
 
     //If no user mentioned use author
-    if(!args[0]) args[0] = message.author.id
-
-    // Handels mentions
-    if(args[0].startsWith('<@')){
-      args[0] = message.mentions.users.first().id
-    }
-
-    //Try and get user, return error message if faied
-    let user;
-    try{
-      user = await client.users.fetch(args[0])
+    let user
+    try {
+      if (args[1].startsWith('<@')) recivingId = message.mentions.users.first().id
+      user = await client.users.fetch(recivingId)
     } catch {
-      embed.setTitle(`Couldnt find user: ${args[0]}`)
-      return message.channel.send({ embeds: [embed] });
+      embed.setTitle(`Couldnt find user: ${recivingId}`)
+      return message.channel.send({
+        embeds: [embed]
+      });
     }
 
     // Try and get DB entry with proper id

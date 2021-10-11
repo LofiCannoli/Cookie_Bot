@@ -9,42 +9,51 @@ module.exports = {
   async execute(client, message, args, Discord){
 
     const embed = new Discord.MessageEmbed()
-    .setColor(embedColour)
+      .setColor(embedColour)
+
+    if (!args[0]) return
+    if (!args[1]) args[1] = message.author.id
 
     const ammountToRemove = args[0]
-    const recivingId = args[1]
-
-    if(args[1].startsWith('<@')){
-      args[1] = message.mentions.users.first().id
-    }
+    let recivingId = args[1]
 
     //Check to make sure user exist
     let user
-    try{
+    try {
+      if (args[1].startsWith('<@')) recivingId = message.mentions.users.first().id
       user = await client.users.fetch(recivingId)
     } catch {
-      embed.setTitle(`Couldnt find user: **${recivingId}**`)
-      return message.channel.send({ embeds: [embed] });
+      embed.setTitle(`Couldnt find user: ${recivingId}`)
+      return message.channel.send({
+        embeds: [embed]
+      });
     }
 
     //Finds and updates user with new ammount of money
     let profileData;
 
-    try{
-      profileData = await profileModel.findOneAndUpdate({userID: recivingId},{
+    try {
+      profileData = await profileModel.findOneAndUpdate({
+        userID: recivingId
+      }, {
         $inc: {
           cookies: -ammountToRemove
         }
       });
       //If no user found, makes new entry in db with correct money
-      if(!profileData){
-        embed.setDescription(`**${user.tag}** has no :cookie:s to take`)
-        message.channel.send({ embeds: [embed] })
+      if (!profileData) {
+        let profile = await profileModel.create({
+          userID: recivingId,
+          cookies: -ammountToRemove
+        });
+        await profile.save()
       }
-    } catch(err){
+    } catch (err) {
       console.log(err)
     }
     embed.setDescription(`Removed **${ammountToRemove}** :cookie:s from **${user.tag}'s** account'`)
-    message.channel.send({ embeds: [embed] })
+    message.channel.send({
+      embeds: [embed]
+    })
   },
- };
+};

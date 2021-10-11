@@ -19,7 +19,7 @@ module.exports = {
 
       await profileData.updateOne({ $inc: { cookies: randomCookies } }, {upsert: true});
 
-      embed.setDescription(`Added **${randomCookies}** :cookie:s`)
+      embed.setDescription(`Added **${randomCookies}** :cookie:s as your daily reward`)
       return message.channel.send({ embeds: [embed] })
 
     } else {

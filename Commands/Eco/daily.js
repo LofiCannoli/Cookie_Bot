@@ -1,9 +1,15 @@
-import {formatTime} from '../Functions/format_time'
-const {embedColour} = require('../config.json');
+import {
+	formatTime
+} from '../../Functions/format_time'
+const {
+	embedColour
+} = require('../../config.json');
 
 module.exports = {
 	name: 'daily',
 	aliases: ['claim'],
+	category: "Eco",
+	usage: '!daily',
 	description: "Claim your daily cookies",
 	async execute(client, message, args, Discord, profileData) {
 		const embed = new Discord.MessageEmbed()

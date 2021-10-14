@@ -1,7 +1,9 @@
 module.exports = {
   name: '',
   aliases: [],
-  description: "",
+  category: '',
+  usage: ''
+  description: '',
   execute(client, message, args, Discord, profileData){
 
   }

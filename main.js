@@ -2,13 +2,17 @@ const Discord = require('discord.js');
 const client = new Discord.Client({
 	intents: ["GUILDS", "GUILD_MESSAGES"]
 });
-const { token, mongoDB } = require('./config.json');
+const {
+	token,
+	mongoDB
+} = require('./config.json');
 const mongoose = require('mongoose');
 
 const fs = require('fs');
 
 client.commands = new Discord.Collection();
 client.events = new Discord.Collection();
+client.categories = fs.readdirSync('./Commands')
 
 const handlers = fs.readdirSync('./Handlers/').filter(file => file.endsWith('.js'))
 handlers.forEach(handler => {

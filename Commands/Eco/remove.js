@@ -1,10 +1,14 @@
-const profileModel = require('../Models/profileSchema');
-const {embedColour} = require('../config.json');
+const profileModel = require('../../Models/profileSchema');
+const {
+	embedColour
+} = require('../../config.json');
 
 module.exports = {
-	name: 'add',
-	aliases: ['+'],
-	description: "add coins to user",
+	name: 'remove',
+	aliases: ['-', 'take'],
+	category: "Eco",
+	usage: '!remove <ammount> [person(id / mention)]',
+	description: "removes coins from user",
 	async execute(client, message, args, Discord) {
 
 		const embed = new Discord.MessageEmbed()
@@ -13,7 +17,7 @@ module.exports = {
 		if (!args[0]) return
 		if (!args[1]) args[1] = message.author.id
 
-		const ammountToAdd = args[0]
+		const ammountToRemove = args[0]
 		let recivingId = args[1]
 
 		//Check to make sure user exist
@@ -21,8 +25,7 @@ module.exports = {
 		try {
 			if (args[1].startsWith('<@')) recivingId = message.mentions.users.first().id
 			user = await client.users.fetch(recivingId)
-		} catch (err) {
-			console.log(err)
+		} catch {
 			embed.setTitle(`Couldnt find user: ${recivingId}`)
 			return message.channel.send({
 				embeds: [embed]
@@ -37,24 +40,23 @@ module.exports = {
 				userID: recivingId
 			}, {
 				$inc: {
-					cookies: ammountToAdd
+					cookies: -ammountToRemove
 				}
 			});
 			//If no user found, makes new entry in db with correct money
 			if (!profileData) {
 				let profile = await profileModel.create({
 					userID: recivingId,
-					cookies: ammountToAdd
+					cookies: -ammountToRemove
 				});
 				await profile.save()
 			}
 		} catch (err) {
 			console.log(err)
 		}
-		embed.setDescription(`Added **${ammountToAdd}** :cookie:s to **${user.tag}'s** account'`)
+		embed.setDescription(`Removed **${ammountToRemove}** :cookie:s from **${user.tag}'s** account'`)
 		message.channel.send({
 			embeds: [embed]
 		})
 	},
 };
-//test

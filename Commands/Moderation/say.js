@@ -1,8 +1,12 @@
-const {embedColour} = require('../config.json');
+const {
+	embedColour
+} = require('../../config.json');
 
 module.exports = {
 	name: 'say',
 	aliases: ['speak'],
+	category: "Moderation",
+	usage: '!say [message]',
 	description: 'says the message following the command',
 	execute(client, message, args, Discord) {
 		const embed = new Discord.MessageEmbed()

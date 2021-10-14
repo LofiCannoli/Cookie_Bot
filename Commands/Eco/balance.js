@@ -1,9 +1,13 @@
-const profileModel = require('../Models/profileSchema');
-const {embedColour} = require('../config.json');
+const profileModel = require('../../Models/profileSchema');
+const {
+	embedColour
+} = require('../../config.json');
 
 module.exports = {
 	name: 'balance',
 	aliases: ['bal', '$'],
+	category: "Eco",
+	usage: '!balance [person(id / mention)]',
 	description: "Checks users cookies",
 	async execute(client, message, args, Discord, profileData) {
 

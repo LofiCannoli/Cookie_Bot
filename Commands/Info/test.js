@@ -1,6 +1,8 @@
 module.exports = {
 	name: 'test',
 	aliases: [],
+	category: "Info",
+	usage: '!test',
 	description: 'says the message following the command',
 	async execute(client, message, args, Discord, profileData) {
 		var resMsg = await message.channel.send('Ping is being appreciated... :bar_chart:');

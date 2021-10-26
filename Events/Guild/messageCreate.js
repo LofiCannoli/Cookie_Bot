@@ -3,7 +3,7 @@ const prefix = '!'
 
 module.exports = async (Discord, client, message) => {
 
-	if (!message.content.startsWith(prefix) || message.author.bot) return;
+
 
 	let profileData;
 
@@ -26,6 +26,29 @@ module.exports = async (Discord, client, message) => {
 		console.log(err)
 	}
 
+	const min = Math.ceil(1)
+	const max = Math.floor(10)
+
+	let randomCookies = Math.floor(Math.random() * (max - min) + min);
+
+	if(Date.now() - profileData.lastReward >= 300000){
+		await profileData.updateOne({
+			lastReward: Date.now()
+		}, {
+			upsert: true
+		});
+
+		await profileData.updateOne({
+			$inc: {
+				cookies: randomCookies
+			}
+		}, {
+			upsert: true
+		});
+	}
+
+
+	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
 
 	const args = message.content.slice(prefix.length).split(' ');

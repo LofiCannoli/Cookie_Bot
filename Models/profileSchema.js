@@ -13,7 +13,11 @@ const profileSchema = new mongoose.Schema({
 	lastClaim: {
 		type: Number,
 		default: 0
-	}
+	},
+	lastReward: {
+		type: Number,
+		default: 0
+	},
 })
 
 const model = mongoose.model('ProfileModels', profileSchema);

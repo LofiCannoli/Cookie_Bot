@@ -40,7 +40,7 @@ module.exports = {
 				embeds: [embed]
 			})
 
-		} else {
+		} else {						
 			const timeLeft = (57600000 - (Date.now() - profileData.lastClaim));
 			embed.setDescription(`You have ${formatTime(timeLeft)} left until next daily reward`);
 			return message.channel.send({

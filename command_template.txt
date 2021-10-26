@@ -2,7 +2,7 @@ module.exports = {
   name: '',
   aliases: [],
   category: '',
-  usage: ''
+  usage: '',
   description: '',
   execute(client, message, args, Discord, profileData){
 

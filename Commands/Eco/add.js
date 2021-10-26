@@ -33,6 +33,7 @@ module.exports = {
 			});
 		}
 
+
 		//Finds and updates user with new ammount of money
 		let profileData;
 

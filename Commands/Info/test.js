@@ -3,7 +3,7 @@ module.exports = {
 	aliases: [],
 	category: "Info",
 	usage: '!test',
-	description: 'says the message following the command',
+	description: 'says the message following the commsdfsdfsdfsdfand',
 	async execute(client, message, args, Discord, profileData) {
 		var resMsg = await message.channel.send('Ping is being appreciated... :bar_chart:');
 		resMsg.edit('Your ping: ' + Math.round((resMsg.createdTimestamp - message.createdTimestamp) - client.ws.ping));

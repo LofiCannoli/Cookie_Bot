@@ -22,6 +22,7 @@ module.exports = {
 	}
 }
 
+
 function getAll(client, message) {
 	const embed = new Discord.MessageEmbed()
 		.setColor(embedColour)
@@ -50,8 +51,11 @@ function getCMD(client, message, input) {
 	let info = `No information found for command **${input.toLowerCase()}**`;
 
 	if (!cmd) {
-		return message.channel.send(embed.setColor(embedColour).setDescription(info));
+		return message.channel.send({
+			embeds: [embed.setColor(embedColour).setDescription(info)]
+		});
 	}
+
 	if (cmd.name) embed.setTitle(`**Command name**: ${cmd.name[0].toUpperCase() + cmd.name.slice(1)}`);
 	if (cmd.aliases) info = `\n**Aliases**: ${cmd.aliases.map(a => `**${a}**`).join(", ")}`;
 	if (cmd.description) info += `\n**Description**: ${cmd.description}`;
